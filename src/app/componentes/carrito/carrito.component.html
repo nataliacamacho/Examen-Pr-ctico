@@ -1,0 +1,19 @@
+<h2>Carrito</h2>
+
+@if (carrito().length === 0) {
+  <p>Tu carrito está vacío.</p>
+} @else {
+  <ul class="carrito">
+    @for (producto of carrito(); track producto.id) {
+      <li class="carrito-item">
+        <span>{{ producto.nombre }} - {{ producto.precio | currency }}</span>
+        <button class="btn-danger" (click)="quitar(producto.id)">Quitar</button>
+      </li>
+    }
+  </ul>
+
+  <p><strong>Total: {{ total() | currency }}</strong></p>
+
+  <button class="btn-info" (click)="vaciar()">Vaciar carrito</button>
+  <button class="btn-secondary" (click)="exportarXML()">Exportar Recibo XML</button>
+}

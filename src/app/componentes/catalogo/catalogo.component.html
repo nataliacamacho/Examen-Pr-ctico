@@ -1,0 +1,17 @@
+<h1>Catálogo</h1>
+
+<div class="catalogo grid">
+  @for (producto of productos; track producto.id) {
+    <div class="producto">
+      <img [src]="producto.imagen" [alt]="producto.nombre" />
+
+      <h3>{{ producto.nombre }}</h3>
+      <p>{{ producto.descripcion }}</p>
+      <strong>{{ producto.precio | currency }}</strong>
+      <button (click)="agregar(producto)">Agregar al carrito</button>
+    </div>
+  }
+</div>
+
+<hr />
+<app-carrito></app-carrito>

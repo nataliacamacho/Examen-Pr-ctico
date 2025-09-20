@@ -1,0 +1,37 @@
+<catalogo>
+  <producto>
+    <id>1</id>
+    <nombre>Pinceles</nombre>
+    <descripcion>Juego de pinceles de diferentes tamaños</descripcion>
+    <precio>250.00</precio>
+    <imagen>assets/images/pinceles.jpg</imagen>
+  </producto>
+  <producto>
+    <id>2</id>
+    <nombre>Caballetes</nombre>
+    <descripcion>Caballete de madera ajustable para pintura</descripcion>
+    <precio>145.00</precio>
+    <imagen>assets/images/caballetes.jpg</imagen>
+  </producto>
+  <producto>
+    <id>3</id>
+    <nombre>Paleta</nombre>
+    <descripcion>Paleta de mezclas para pinturas</descripcion>
+    <precio>40.00</precio>
+    <imagen>assets/images/paleta.jpg</imagen>
+  </producto>
+  <producto>
+    <id>4</id>
+    <nombre>Acrílicos</nombre>
+    <descripcion>Set de pinturas acrílicas de 12 colores</descripcion>
+    <precio>280.00</precio>
+    <imagen>assets/images/acrilicos.jpg</imagen>
+  </producto>
+  <producto>
+    <id>5</id>
+    <nombre>Lienzo</nombre>
+    <descripcion>Lienzo para pintura 50x70 cm</descripcion>
+    <precio>40.00</precio>
+    <imagen>assets/images/lienzo.jpg</imagen>
+  </producto>
+</catalogo>

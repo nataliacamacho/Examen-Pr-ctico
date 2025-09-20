@@ -1,0 +1,125 @@
+/* 🌸 Estilos globales en styles.css */
+
+/* Reset rápido y tipografía */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #fff0f5; /* lila/rosado suave de fondo */
+  color: #333;
+}
+
+/* Títulos */
+h1, h2, h3 {
+  color: #d6336c; /* rosa fuerte */
+  text-align: center;
+  margin: 20px 0 10px;
+}
+
+/* Contenedores principales */
+.catalogo, .carrito {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Grid para catálogo */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Tarjetas de productos */
+.producto, .carrito-item {
+  background: #ffe4ec; /* rosa suave */
+  border: 1px solid #f4c2d0;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.producto:hover {
+  transform: translateY(-5px);
+}
+
+/* Imagen del producto */
+.producto img {
+  max-width: 150px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Texto de descripción y precio */
+.producto p, .producto strong {
+  text-align: center;
+  margin: 5px 0;
+}
+
+.producto strong {
+  color: #d6336c;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* Botones generales */
+button {
+  background: #ff7eb9; /* rosa medio */
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-top: 8px;
+}
+
+button:hover {
+  background: #ff4f8b; /* rosa más fuerte al pasar el mouse */
+}
+
+/* Botones específicos */
+button.btn-danger {
+  background: #ff4f6d;
+}
+
+button.btn-danger:hover {
+  background: #d6336c;
+}
+
+button.btn-info {
+  background: #ff85a2;
+}
+
+button.btn-info:hover {
+  background: #ff4f8b;
+}
+
+button.btn-secondary {
+  background: #ffb3c6;
+}
+
+button.btn-secondary:hover {
+  background: #ff85a2;
+}
+
+/* Lista de carrito */
+.carrito ul {
+  list-style: none;
+  padding: 0;
+}
+
+.carrito li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #ffe4ec;
+  border-radius: 8px;
+  border: 1px solid #f4c2d0;
+}
