@@ -1,4 +1,46 @@
-import { Component, inject} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Producto } from '../../models/producto';
+import { ProductoService } from '../../servicios/producto.service';
+import { CarritoService } from '../../servicios/carrito.service';
+import { CarritoComponent } from '../carrito/carrito.component';
+import { CurrencyPipe } from '@angular/common';
+
+@Component({
+  selector: 'app-catalogo',
+  standalone: true,
+  imports: [CarritoComponent, CurrencyPipe],
+  templateUrl: './catalogo.component.html'
+})
+export class CatalogoComponent implements OnInit {
+  private carritoService = inject(CarritoService);
+  private productoService = inject(ProductoService);
+
+  productos: Producto[] = []; // Empezamos vacío, se llenará desde la DB
+
+  ngOnInit(): void {
+    this.cargarProductos();
+  }
+
+  cargarProductos() {
+    this.productoService.obtenerProductos().subscribe({
+      next: (data: any) => this.productos = data as Producto[], // Datos de la DB
+      error: (err: any) => console.error('Error cargando productos:', err)
+    });
+  }
+
+  agregar(producto: Producto) {
+    this.carritoService.agregar(producto);
+  }
+
+  trackByProductoId(index: number, producto: Producto): number {
+    return producto.id;
+  }
+}
+
+
+
+
+/*import { Component, inject} from '@angular/core';
 import { CarritoService, } from '../../servicios/carrito.service';
 import { Producto } from '../../models/producto';
 import { CarritoComponent } from '../carrito/carrito.component';
@@ -13,7 +55,9 @@ import { CurrencyPipe } from '@angular/common';
 export class CatalogoComponent {
   private carritoService = inject(CarritoService);
 
-  productos: Producto[] = [
+  productos: Producto[] = [];
+
+  /*productos: Producto[] = [
     {
       id: 1,
       nombre: 'Pinceles',
@@ -59,4 +103,4 @@ export class CatalogoComponent {
     return producto.id;
   }
   
-}
+}*/

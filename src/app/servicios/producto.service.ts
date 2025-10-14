@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { Inject, PLATFORM_ID } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface Producto {
   id: number;
@@ -14,6 +14,17 @@ export interface Producto {
   providedIn: 'root'
 })
 export class ProductoService {
+  private apiUrl = 'http://localhost:4000/api/catalogo';
+
+  constructor(private http: HttpClient) {}
+
+  obtenerProductos(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.apiUrl}/productos`);
+  }
+}
+
+
+/*export class ProductoService {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   async getProductos(): Promise<Producto[]> {
@@ -48,4 +59,4 @@ export class ProductoService {
       return [];
     }
   }
-}
+}*/
