@@ -123,3 +123,11 @@ button.btn-secondary:hover {
   border-radius: 8px;
   border: 1px solid #f4c2d0;
 }
+
+#paypal-button-container {
+  min-width: 250px;   /* ancho mínimo visible */
+  min-height: 50px;   /* alto mínimo visible */
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* centrar el botón */
+}

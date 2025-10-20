@@ -9,10 +9,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
+    "@paypal/checkout-server-sdk": "^1.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "ngx-paypal": "^11.0.0",
+    "node-fetch": "^3.3.2"
   }
 }
