@@ -1,16 +1,28 @@
-<div *ngIf="carrito.length > 0; else vacio">
+<!-- src/app/components/carrito/carrito.component.html -->
+
+<h2>Carrito de compras</h2>
+
+<div *ngIf="carrito().length > 0; else vacio">
   <ul>
-    <li *ngFor="let producto of carrito; trackBy: trackByProductoId">
-      {{ producto.nombre }} - ${{ producto.precio }}
+    <li *ngFor="let producto of carrito(); trackBy: trackByProductoId">
+      <strong>{{ producto.nombre }}</strong> — ${{ producto.precio }}  
       <button (click)="quitar(producto.id)">Quitar</button>
     </li>
   </ul>
-  <p>Total: ${{ total() }}</p>
-  <button (click)="vaciar()">Vaciar carrito</button>
-  <button (click)="exportarXML()">Exportar XML</button>
-  <div id="paypal-button-container"></div>
-</div>
 
+<p><strong>Total:</strong> ${{ total }}</p>
+
+  <div class="acciones">
+    <button (click)="vaciar()">Vaciar carrito</button>
+    <button (click)="exportarXML()">Exportar XML</button>
+  </div>
+
+  <!-- 🟢 El botón de PayPal solo se renderiza si hay productos -->
+  
+</div>
+<div id="paypal-button-container"></div>
+
+<!-- 🟠 Mensaje si el carrito está vacío -->
 <ng-template #vacio>
-  <p>El carrito está vacío</p>
+  <p>El carrito está vacío.</p>
 </ng-template>

@@ -1,45 +1,64 @@
+// routes/paypalRoute.js
 import express from 'express';
-import paypal from '@paypal/checkout-server-sdk';
-import paypalClient from '../config/paypal.js';
+import fetch from 'node-fetch';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
 
+const PAYPAL_API = 'https://api-m.sandbox.paypal.com';
+const CLIENT = process.env.PAYPAL_CLIENT_ID;
+const SECRET = process.env.PAYPAL_SECRET;
+
+// Crear orden
 router.post('/create-order', async (req, res) => {
   const { total } = req.body;
-  const request = new paypal.orders.OrdersCreateRequest();
+  if (!total || total <= 0) {
+    return res.status(400).send({ error: 'Carrito vacío' });
+  }
 
-  request.prefer("return=representation");
-  request.requestBody({
-    intent: 'CAPTURE',
-    purchase_units: [{
-      amount: {
-        currency_code: 'MXN',
-        value: total.toFixed(2),
-      },
-    }],
-  });
+  const auth = Buffer.from(`${CLIENT}:${SECRET}`).toString('base64');
 
   try {
-    const order = await paypalClient.execute(request);
-    res.json({ id: order.result.id });
-  } catch (err) {
-    console.error("Error al crear la orden:", err);
-    res.status(500).send("Error al crear la orden de pago.");
+    const response = await fetch(`${PAYPAL_API}/v2/checkout/orders`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${auth}`,
+      },
+      body: JSON.stringify({
+        intent: 'CAPTURE',
+        purchase_units: [{ amount: { currency_code: 'MXN', value: total.toFixed(2) } }],
+      }),
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Error al crear orden' });
   }
 });
 
+// Capturar pago
 router.post('/capture-order', async (req, res) => {
   const { orderID } = req.body;
-  const request = new paypal.orders.OrdersCaptureRequest(orderID);
-  request.requestBody({});
+  const auth = Buffer.from(`${CLIENT}:${SECRET}`).toString('base64');
 
   try {
-    const capture = await paypalClient.execute(request);
-    console.log('Pago capturado:', capture.result);
-    res.json(capture.result);
-  } catch (err) {
-    console.error("Error al capturar la orden:", err);
-    res.status(500).send("Error al confirmar el pago.");
+    const response = await fetch(`${PAYPAL_API}/v2/checkout/orders/${orderID}/capture`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${auth}`,
+      },
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: 'Error al capturar orden' });
   }
 });
 
