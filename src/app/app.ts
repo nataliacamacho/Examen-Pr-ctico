@@ -1,11 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { NavbarComponent } from './componentes/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule], 
-  template: `<router-outlet></router-outlet>`
+  imports: [
+    NavbarComponent,
+    RouterModule  // solo RouterModule, no .forRoot aquí
+  ],
+  template: `
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+  `
 })
 export class App {}

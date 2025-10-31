@@ -1,0 +1,11 @@
+<nav class="navbar">
+  <div class="logo">ArtoArte</div>
+
+  <div class="nav-buttons">
+    <button class="btn-nav" type="button" (click)="irACatalogo()">Productos</button>
+  </div>
+
+  <button class="btn-carrito" type="button" (click)="abrirCarrito()">
+    🛒 {{ carritoService.productos().length }}
+  </button>
+</nav>

@@ -1,31 +1,51 @@
 .carrito-container {
-  background: #fffafc;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-  padding: 20px;
-  margin: 20px auto;
+  background: #fffafc; /* Fondo sólido uniforme */
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  padding: 25px 20px;
+  margin: 30px auto;
   max-width: 500px;
 }
 
+.carrito-container h2 {
+  text-align: center;
+  color: #d6336c;
+  margin-bottom: 20px;
+}
+
 .carrito-items ul {
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffe4ec;
+  background: #fff0f5; /* Fondo sólido uniforme para cada producto */
   border: 1px solid #f4c2d0;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 8px;
+  border-radius: 12px;
+  padding: 12px 15px;
+  margin-bottom: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.item .info {
+.item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+.item-left {
+  font-weight: 600;
+  color: #d6336c;
+}
+
+.item-right {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  align-items: center;
+  gap: 10px;
 }
 
 .btn-quitar {
@@ -33,29 +53,37 @@
   color: white;
   border: none;
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .btn-quitar:hover {
   background: #d6336c;
+  transform: scale(1.05);
 }
 
 .total {
   text-align: right;
-  font-size: 1.2em;
-  margin-top: 15px;
+  font-size: 1.25em;
+  font-weight: 600;
+  margin-top: 20px;
   color: #d6336c;
 }
 
 .acciones {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.acciones button {
+  flex: 1;
 }
 
 #paypal-button-container {
-  margin-top: 25px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
 }
