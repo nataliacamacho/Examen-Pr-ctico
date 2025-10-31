@@ -1,28 +1,29 @@
 <!-- src/app/components/carrito/carrito.component.html -->
+<div class="carrito-container">
+  <h2>🛍 Carrito de compras</h2>
 
-<h2>Carrito de compras</h2>
+  <div *ngIf="carrito().length > 0; else vacio" class="carrito-items">
+    <ul>
+      <li *ngFor="let producto of carrito(); trackBy: trackByProductoId" class="item">
+        <div class="info">
+          <strong>{{ producto.nombre }}</strong>
+          <span>${{ producto.precio | number:'1.2-2' }}</span>
+        </div>
+        <button (click)="quitar(producto.id)" class="btn-quitar">Quitar</button>
+      </li>
+    </ul>
 
-<div *ngIf="carrito().length > 0; else vacio">
-  <ul>
-    <li *ngFor="let producto of carrito(); trackBy: trackByProductoId">
-      <strong>{{ producto.nombre }}</strong> — ${{ producto.precio }}  
-      <button (click)="quitar(producto.id)">Quitar</button>
-    </li>
-  </ul>
+    <p class="total"><strong>Total:</strong> ${{ total() | number:'1.2-2' }}</p>
 
-<p><strong>Total:</strong> ${{ total }}</p>
+    <div class="acciones">
+      <button (click)="vaciar()" class="btn-vaciar">🗑 Vaciar carrito</button>
+      <button (click)="exportarXML()" class="btn-xml">📦 Exportar XML</button>
+    </div>
 
-  <div class="acciones">
-    <button (click)="vaciar()">Vaciar carrito</button>
-    <button (click)="exportarXML()">Exportar XML</button>
+    <div id="paypal-button-container" class="paypal-btn"></div>
   </div>
 
-  <!-- 🟢 El botón de PayPal solo se renderiza si hay productos -->
-  
+  <ng-template #vacio>
+    <p>🩷 El carrito está vacío.</p>
+  </ng-template>
 </div>
-<div id="paypal-button-container"></div>
-
-<!-- 🟠 Mensaje si el carrito está vacío -->
-<ng-template #vacio>
-  <p>El carrito está vacío.</p>
-</ng-template>
