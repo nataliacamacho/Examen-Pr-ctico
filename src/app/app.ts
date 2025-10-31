@@ -8,7 +8,7 @@ import { NavbarComponent } from './componentes/navbar/navbar.component';
   standalone: true,
   imports: [
     NavbarComponent,
-    RouterModule  // solo RouterModule, no .forRoot aquí
+    RouterModule 
   ],
   template: `
     <app-navbar></app-navbar>

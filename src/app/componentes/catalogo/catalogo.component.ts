@@ -39,8 +39,13 @@ export class CatalogoComponent implements OnInit {
   }
 
   agregar(producto: Producto) {
+  if (producto.stock > 0) {
     this.carritoService.agregar(producto);
+  } else {
+    alert('⚠️ Este producto está agotado.');
   }
+}
+
 
   trackByProductoId(index: number, producto: Producto): number {
     return producto.id;

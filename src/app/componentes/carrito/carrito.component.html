@@ -3,35 +3,36 @@
 
   <div *ngIf="carrito().length > 0; else vacio" class="carrito-items">
     <ul>
-      <li *ngFor="let producto of carrito(); trackBy: trackByProductoId" class="item">
-        <!-- Columna izquierda: nombre -->
+      <li
+        *ngFor="let producto of carrito(); trackBy: trackByProductoId"
+        class="item"
+      >
         <div class="item-left">
           <strong>{{ producto.nombre }}</strong>
         </div>
 
-        <!-- Columna derecha: precio y botón -->
         <div class="item-right">
-          <span>${{ producto.precio | number:'1.2-2' }}</span>
-          <button (click)="quitar(producto.id)" class="btn-quitar">Quitar</button>
+          <span>${{ producto.precio | number: '1.2-2' }}</span>
+          <button (click)="quitar(producto.id)" class="btn-quitar">
+            Quitar
+          </button>
         </div>
       </li>
     </ul>
 
-    <!-- Total -->
-    <p class="total"><strong>Total:</strong> ${{ total() | number:'1.2-2' }}</p>
-
-    <!-- Acciones -->
-    <div class="acciones">
-      <button (click)="vaciar()" class="btn-vaciar">Vaciar carrito</button>
-      <button (click)="exportarXML()" class="btn-xml">Imprimir recibo</button>
+    <div class="resumen">
+      <p><strong>Subtotal:</strong> ${{ subtotal() | number: '1.2-2' }}</p>
+      <p><strong>IVA (16%):</strong> ${{ iva() | number: '1.2-2' }}</p>
+      <p class="total">
+        <strong>Total a pagar:</strong>
+        ${{ totalConIva() | number: '1.2-2' }}
+      </p>
     </div>
 
-    <!-- PayPal -->
     <div id="paypal-button-container" class="paypal-btn"></div>
   </div>
 
-  <!-- Carrito vacío -->
   <ng-template #vacio>
-    <p>🩷 El carrito está vacío</p>
+    <p>El carrito está vacío</p>
   </ng-template>
 </div>

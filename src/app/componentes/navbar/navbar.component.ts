@@ -13,7 +13,7 @@ export class NavbarComponent {
   ) {}
 
   abrirCarrito() {
-    this.router.navigate(['/carrito']); // abre el carrito
+    this.router.navigate(['/carrito']);
   }
 
   irACatalogo() {

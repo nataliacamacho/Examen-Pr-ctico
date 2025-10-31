@@ -1,4 +1,3 @@
-// src/api/db.js
 import mysql from 'mysql2';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -13,10 +12,10 @@ const db = mysql.createConnection({
 
 db.connect(err => {
   if (err) {
-    console.error('❌ Error al conectar a la base de datos:', err);
+    console.error('Error al conectar a la base de datos:', err);
     return;
   }
-  console.log('✅ Conectado correctamente a la base de datos');
+  console.log('Conectado correctamente a la base de datos');
 });
 
 export default db;

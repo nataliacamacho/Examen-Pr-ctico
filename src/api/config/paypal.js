@@ -1,4 +1,3 @@
-// src/api/config/paypal.js
 import paypal from '@paypal/checkout-server-sdk';
 import dotenv from 'dotenv';
 dotenv.config();

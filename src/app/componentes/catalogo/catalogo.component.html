@@ -8,8 +8,21 @@
       <h3>{{ producto.nombre }}</h3>
       <p>{{ producto.descripcion }}</p>
       <strong>{{ producto.precio | currency }}</strong>
-      <button (click)="agregar(producto)">Agregar al carrito</button>
+
+      @if (producto.stock > 0) {
+        <p class="stock">Disponibles: {{ producto.stock }}</p>
+      } @else {
+        <p class="sin-stock">Agotado</p>
+      }
+
+      <button
+        type="button"
+        class="btn-agregar"
+        (click)="agregar(producto)"
+        [disabled]="producto.stock === 0"
+      >
+        {{ producto.stock === 0 ? 'No disponible' : 'Agregar al carrito' }}
+      </button>
     </div>
   }
 </div>
-
