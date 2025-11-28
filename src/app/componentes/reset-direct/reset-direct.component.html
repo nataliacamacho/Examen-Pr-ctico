@@ -1,0 +1,34 @@
+<div class="reset-container">
+  <div class="card">
+    <h2>Restablecer contraseña</h2>
+
+    <div *ngIf="error" class="error">{{ error }}</div>
+    <div *ngIf="success" class="success">{{ success }}</div>
+
+    <div class="step">
+      <label>Correo electrónico</label>
+      <div class="lookup-row">
+        <input [(ngModel)]="correo" name="correo" type="email" placeholder="Correo electrónico" required />
+        <button type="button" class="btn small" (click)="buscarIdentidad()" [disabled]="lookupInProgress">{{ lookupInProgress ? 'Buscando...' : 'Buscar' }}</button>
+      </div>
+    </div>
+
+    <form *ngIf="lookupDone" (ngSubmit)="submit()">
+      <div *ngIf="serverPregunta" class="verification-section">
+        <label>Pregunta de seguridad</label>
+        <p class="security-question">{{ serverPregunta }}</p>
+        <input [(ngModel)]="respuesta" name="respuesta" type="text" placeholder="Tu respuesta" required />
+      </div>
+
+      <div *ngIf="!serverPregunta" class="verification-section">
+        <label>Verifica tu identidad</label>
+        <input [(ngModel)]="nombre" name="nombre" type="text" placeholder="Tu nombre completo" required />
+      </div>
+
+      <input [(ngModel)]="password" name="password" type="password" placeholder="Nueva contraseña" required />
+      <input [(ngModel)]="confirm" name="confirm" type="password" placeholder="Confirmar contraseña" required />
+
+      <button class="btn" type="submit" [disabled]="loading">{{ loading ? 'Guardando...' : 'Actualizar contraseña' }}</button>
+    </form>
+  </div>
+</div>

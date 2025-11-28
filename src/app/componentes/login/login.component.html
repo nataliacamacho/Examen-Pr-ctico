@@ -1,0 +1,37 @@
+<div class="auth-page">
+  <div class="auth-box">
+
+    <h2>Iniciar Sesión</h2>
+
+    <input
+      placeholder="Correo electrónico"
+      [(ngModel)]="correo"
+      class="auth-input"
+    >
+
+    <input
+      type="password"
+      placeholder="Contraseña"
+      [(ngModel)]="password"
+      class="auth-input"
+    >
+
+    <button (click)="login()" class="auth-btn">
+        Iniciar Sesión
+    </button>
+
+    <p class="auth-links">
+        ¿Olvidaste tu contraseña?
+      <a routerLink="/recover">Recuperar contraseña</a>
+    </p>
+
+    <p class="msg">{{ mensaje }}</p>
+
+    <p class="auth-links">
+      ¿No tienes cuenta?
+      <a routerLink="/register">Crear cuenta</a>
+    </p>
+
+  </div>
+</div>
+

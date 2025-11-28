@@ -1,28 +1,35 @@
 <h1>Catálogo</h1>
+<div class="catalogo grid" [attr.data-count]="productos.length">
+  <div *ngFor="let producto of productos; trackBy: trackByProductoId" class="producto" [attr.data-id]="producto.id">
+    <img [src]="producto.imagen" [alt]="producto.nombre" />
+    <h3>{{ producto.nombre }}</h3>
+    <p>{{ producto.descripcion }}</p>
+    <strong>{{ producto.precio | currency }}</strong>
 
-<div class="catalogo grid">
-  @for (producto of productos; track producto.id) {
-    <div class="producto">
-      <img [src]="producto.imagen" [alt]="producto.nombre" />
+    <p class="stock">Disponibles: {{ producto.stock }}</p>
 
-      <h3>{{ producto.nombre }}</h3>
-      <p>{{ producto.descripcion }}</p>
-      <strong>{{ producto.precio | currency }}</strong>
+  <p *ngIf="esAdmin()" class="nota-admin">Eres admin - Solo gestión de inventario disponible</p>
 
-      @if (producto.stock > 0) {
-        <p class="stock">Disponibles: {{ producto.stock }}</p>
-      } @else {
-        <p class="sin-stock">Agotado</p>
-      }
+    <p *ngIf="!esAdmin() && getStockDisponible(producto) === 0 && producto.stock > 0" class="nota-limite">Has agregado todas las unidades disponibles para tu carrito.</p>
 
-      <button
-        type="button"
-        class="btn-agregar"
-        (click)="agregar(producto)"
-        [disabled]="producto.stock === 0"
+     <div *ngIf="!esAdmin() && getStockDisponible(producto) > 0" class="qty-selector">
+      <label for="qty-{{ producto.id }}">Cantidad:</label>
+      <select 
+        [id]="'qty-' + producto.id"
+        [(ngModel)]="cantidades[producto.id]"
+        class="qty-dropdown"
       >
-        {{ producto.stock === 0 ? 'No disponible' : 'Agregar al carrito' }}
-      </button>
+        <option *ngFor="let n of getStockOptions(producto)" [value]="n">
+          {{ n }}
+        </option>
+      </select>
     </div>
-  }
+
+         <button *ngIf="!esAdmin()" type="button"
+            class="btn-agregar"
+            (click)="agregar(producto)"
+            [disabled]="getStockDisponible(producto) === 0">
+      {{ getStockDisponible(producto) === 0 ? 'No disponible' : 'Agregar al carrito' }}
+    </button>
+  </div>
 </div>

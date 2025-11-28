@@ -1,11 +1,25 @@
-<nav class="navbar">
-  <div class="logo">ArtoArte</div>
+<nav class="sweet-nav">
 
-  <div class="nav-buttons">
-    <button class="btn-nav" type="button" (click)="irACatalogo()">Productos</button>
+  <div class="nav-left">
+    <span class="logo">ArtoArte</span>
   </div>
 
-  <button class="btn-carrito" type="button" (click)="abrirCarrito()">
-    🛒 {{ carritoService.productos().length }}
-  </button>
+  <ul class="nav-links">
+    <li *ngIf="!esAdmin()"><button class="nav-btn" (click)="irACatalogo()">Catálogo</button></li>
+
+    <ng-container *ngIf="auth.usuarioSignal(); else noLogin">
+       <li *ngIf="esAdmin()"><button class="nav-btn" (click)="irAAdmin()">Admin</button></li>
+      <li><button class="nav-btn" (click)="irAPerfil()">Perfil</button></li>
+      <li><button class="nav-btn" (click)="logout()">Cerrar sesión</button></li>
+    </ng-container>
+
+    <ng-template #noLogin>
+      <li><button class="nav-btn" (click)="irAInicio()">Cuenta</button></li>
+    </ng-template>
+     <li *ngIf="!esAdmin()" class="cart" (click)="abrirCarrito()">
+      <span class="cart-icon">🛒</span>
+      <span class="badge">{{ getTotalUnidades() }}</span>
+    </li>
+  </ul>
+
 </nav>

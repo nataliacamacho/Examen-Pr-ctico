@@ -1,0 +1,17 @@
+<div class="auth-page">
+  <div class="auth-box">
+
+    <h2 class="auth-title">Recuperar Contraseña</h2>
+
+    <input type="email" placeholder="Correo registrado" class="auth-input" [(ngModel)]="correo">
+
+    <button class="auth-btn" (click)="recuperar()">Enviar enlace</button>
+
+    <div class="msg">{{ mensaje }}</div>
+
+    <div class="auth-links">
+      <a routerLink="/login">Volver a iniciar sesión</a>
+    </div>
+
+  </div>
+</div>

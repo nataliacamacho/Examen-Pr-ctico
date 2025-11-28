@@ -1,0 +1,131 @@
+.catalogo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.producto {
+  background: #fff;
+  border: 1px solid #e0b0c0;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  min-height: 350px;
+}
+
+.producto:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.producto img {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  object-fit: cover;
+}
+
+.producto h3 {
+  font-size: 1.1rem;
+  margin: 10px 0 8px;
+  color: #c2185b;
+}
+
+.producto p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 6px 0;
+  flex-grow: 1;
+}
+
+.producto strong {
+  font-size: 1.25rem;
+  color: #d6336c;
+  margin: 12px 0;
+  display: block;
+}
+
+.stock {
+  font-size: 0.85rem;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.sin-stock {
+  font-size: 0.85rem;
+  color: #dc3545;
+  font-weight: 500;
+}
+
+.qty-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0;
+  width: 100%;
+}
+
+.qty-selector label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+}
+
+.qty-dropdown {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background: #fff;
+  color: #333;
+}
+
+.qty-dropdown:hover {
+  border-color: #c2185b;
+}
+
+.btn-agregar {
+  background: linear-gradient(135deg, #ff82a9, #ff4f8b);
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-top: auto;
+  width: 100%;
+}
+
+.btn-agregar:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff4f8b, #ff2670);
+  transform: scale(1.03);
+}
+
+.btn-agregar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+  .nota-admin {
+    font-size: 0.85rem;
+    color: #ff6b6b;
+    font-weight: 500;
+    font-style: italic;
+    margin: 8px 0 !important;
+    padding: 6px 8px;
+    background: #ffe6e6;
+    border-radius: 4px;
+  }
+

@@ -1,0 +1,58 @@
+<div class="perfil-container">
+  <div class="perfil-card">
+    <div class="header">
+      <h1 class="title">Editar Producto</h1>
+    </div>
+
+    <form (ngSubmit)="guardar()" class="perfil-form">
+      <div class="form-section">
+        <h3 class="section-title">Información del Producto</h3>
+
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input type="text" class="form-input" [(ngModel)]="nombre" name="nombre" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Descripción</label>
+          <textarea class="form-input" rows="4" [(ngModel)]="descripcion" name="descripcion"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Precio ($)</label>
+            <input type="number" class="form-input" [(ngModel)]="precio" name="precio" step="0.01" min="0" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Stock</label>
+            <input type="number" class="form-input" [(ngModel)]="stock" name="stock" min="0" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">URL Imagen</label>
+          <input type="text" class="form-input" [(ngModel)]="imagen" name="imagen" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Estado</label>
+          <select class="form-input" [(ngModel)]="estado" name="estado">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="messages">
+        <p class="success-message" *ngIf="mensaje">✓ {{ mensaje }}</p>
+        <p class="error-message" *ngIf="error">✗ {{ error }}</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="cargando">{{ cargando ? 'Guardando...' : 'Guardar' }}</button>
+        <button type="button" class="btn btn-secondary" (click)="volver()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

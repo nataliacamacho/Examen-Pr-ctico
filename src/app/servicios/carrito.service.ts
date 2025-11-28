@@ -33,11 +33,59 @@ export class CarritoService {
   agregar(producto: Producto) {
     const precioNum = this.parsePrice((producto as any).precio);
     const limpio: Producto = { ...producto, precio: precioNum };
-    this.productos.update((lista) => [...lista, limpio]);
+
+    this.productos.update((lista) => {
+      const index = lista.findIndex((p) => p.id === limpio.id);
+      if (index >= 0) {
+        const copia = [...lista];
+        const existente = { ...copia[index] } as any;
+        const currentQty = Number(existente.cantidad ?? 1);
+        const nuevaQty = currentQty + 1;
+        existente.cantidad = nuevaQty;
+        copia[index] = existente;
+        return copia;
+      }
+
+      return [...lista, { ...limpio, cantidad: 1 }];
+    });
   }
 
   quitar(id: number) {
+    this.productos.update((lista) => {
+      const index = lista.findIndex((p) => p.id === id);
+      if (index === -1) return lista;
+      const copia = [...lista];
+      const existente = { ...copia[index] } as any;
+      const currentQty = Number(existente.cantidad ?? 1);
+      if (currentQty > 1) {
+        existente.cantidad = currentQty - 1;
+        copia[index] = existente;
+        return copia;
+      }
+      copia.splice(index, 1);
+      return copia;
+    });
+  }
+
+  quitarTodo(id: number) {
     this.productos.update((lista) => lista.filter((p) => p.id !== id));
+  }
+
+  setCantidad(id: number, cantidad: number) {
+    this.productos.update((lista) => {
+      const index = lista.findIndex((p) => p.id === id);
+      if (index === -1) return lista;
+      const copia = [...lista];
+      const existente = { ...copia[index] } as any;
+      const qty = Number(cantidad) || 0;
+      if (qty <= 0) {
+        copia.splice(index, 1);
+        return copia;
+      }
+      existente.cantidad = qty;
+      copia[index] = existente;
+      return copia;
+    });
   }
 
   vaciar() {

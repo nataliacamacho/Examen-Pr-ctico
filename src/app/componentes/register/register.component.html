@@ -1,0 +1,24 @@
+<div class="auth-page">
+  <div class="auth-box">
+
+    <h2 class="auth-title">Crear Cuenta</h2>
+
+    <input type="text" placeholder="Nombre" class="auth-input" [(ngModel)]="nombre">
+    <input type="email" placeholder="Correo" class="auth-input" [(ngModel)]="correo">
+    <input type="password" placeholder="Contraseña" class="auth-input" [(ngModel)]="password">
+    <label class="auth-label">Selecciona una pregunta de seguridad</label>
+    <select class="auth-input" [(ngModel)]="pregunta">
+      <option *ngFor="let q of preguntasList">{{ q }}</option>
+    </select>
+    <input type="text" placeholder="Respuesta de seguridad" class="auth-input" [(ngModel)]="respuesta">
+
+    <button class="auth-btn" (click)="registrar()">Registrar</button>
+
+    <div class="msg">{{ mensaje }}</div>
+
+    <div class="auth-links">
+      <a routerLink="/login">¿Ya tienes cuenta? Iniciar sesión</a>
+    </div>
+
+  </div>
+</div>

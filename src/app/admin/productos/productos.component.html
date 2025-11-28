@@ -1,0 +1,53 @@
+<div class="admin-page">
+  <h2>Gestión de Productos</h2>
+  <button (click)="nuevoProducto()">Agregar Producto</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    <div class="admin-page">
+        <h2>Gestión de Productos</h2>
+        <button (click)="nuevoProducto()">Agregar Producto</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-template ngFor let-producto [ngForOf]="productos">
+                    <tr>
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.descripcion }}</td>
+                        <td>{{ producto.precio }}</td>
+                        <td>{{ producto.stock }}</td>
+                        <td>{{ producto.estado }}</td>
+                        <td>
+                            <button (click)="editarProducto(producto)">Editar</button>
+                            <button (click)="toggleVigencia(producto)">
+                                {{ producto.estado === 'activo' ? 'Desactivar' : 'Activar' }}
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
+    </div>
+    </tbody>
+  </table>
+</div>

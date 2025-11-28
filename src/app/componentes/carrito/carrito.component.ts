@@ -7,21 +7,27 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { CarritoService } from '../../servicios/carrito.service';
+import { AuthService } from '../../servicios/auth.service';
 import { Producto } from '../../models/producto';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import cors from 'cors';
+
+
 
 declare var paypal: any;
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './carrito.component.html',
 })
 export class CarritoComponent implements AfterViewInit {
   private carritoService = inject(CarritoService);
+  private authService = inject(AuthService);
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
 
@@ -32,23 +38,31 @@ export class CarritoComponent implements AfterViewInit {
   totalConIva = computed(() => this.carritoService.totalConIva());
 
   actualizarPayPal = effect(() => {
-    const productos = this.carrito();
-    const total = this.totalConIva();
-    console.log(
-      '🧾 Cambio detectado en carrito:',
-      productos.length,
-      'productos, total con IVA:',
-      total
-    );
-
     if (isPlatformBrowser(this.platformId)) {
-      setTimeout(() => this.verificarYRenderizarPayPal(), 250);
+      setTimeout(() => this.verificarYRenderizarPayPal(), 150);
     }
   });
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => this.verificarYRenderizarPayPal(), 300);
+    }
+  }
 
   quitar(id: number) {
+    this.carritoService.quitar(id);
+  }
+
+  quitarTodo(id: number) {
+    this.carritoService.quitarTodo(id);
+  }
+
+  incrementar(id: number) {
+    const producto = this.carrito().find((p: any) => p.id === id);
+    if (producto) this.carritoService.agregar(producto as Producto);
+  }
+
+  decrementar(id: number) {
     this.carritoService.quitar(id);
   }
 
@@ -60,9 +74,29 @@ export class CarritoComponent implements AfterViewInit {
     return producto.id;
   }
 
+  getCantidad(producto: any): number {
+    return Number(producto.cantidad ?? 1);
+  }
+
+  lineTotal(producto: any): number {
+    return Number(producto.precio) * this.getCantidad(producto);
+  }
+
+  actualizarCantidad(id: number, value: any) {
+    const n = Number(value) || 0;
+    try {
+      this.carritoService.setCantidad(id, n);
+    } catch (e) {
+      console.error('Error actualizando cantidad:', e);
+    }
+  }
+
+  getStockOptions(producto: any): number[] {
+    return Array.from({ length: Number(producto.stock) || 0 }, (_, i) => i + 1);
+  }
+
   finalizarCompra() {
-    this.carritoService.confirmarCompra();
-    alert('Compra realizada correctamente. Recibo generado.');
+    console.warn('finalizarCompra() deprecated - usar botones de PayPal');
   }
 
   private verificarYRenderizarPayPal() {
@@ -72,74 +106,83 @@ export class CarritoComponent implements AfterViewInit {
     const container = document.getElementById('paypal-button-container');
     if (!container) return;
 
+    if (!(window as any).paypal) {
+      console.log('SDK PayPal no listo, reintentando...');
+      setTimeout(() => this.verificarYRenderizarPayPal(), 300);
+      return;
+    }
+
     if (totalValue <= 0 || productos.length === 0) {
       container.innerHTML = '';
-      console.log('🧹 Carrito vacío. Botón PayPal eliminado.');
+      container.removeAttribute('data-paypal-button');
       return;
     }
 
-    if (!(window as any).paypal) {
-      console.log('⏳ SDK de PayPal no listo. Reintentando...');
-      setTimeout(() => this.verificarYRenderizarPayPal(), 500);
-      return;
-    }
+    if (container.getAttribute('data-paypal-button') === 'true') return;
 
     container.innerHTML = '';
+    container.setAttribute('data-paypal-button', 'true');
 
     paypal.Buttons({
+      style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
+
       createOrder: async () => {
-        const total = this.totalConIva();
         try {
           const res = await firstValueFrom(
-            this.http.post<any>('http://localhost:3000/api/paypal/create-order', {
-              total,
-            })
+            this.http.post<any>(
+              'http://localhost:3000/api/paypal/create-order',
+              { total: totalValue },
+              { withCredentials: true }
+            )
           );
-          console.log('Orden creada en PayPal:', res.id);
           return res.id;
         } catch (error) {
-          console.error('Error al crear la orden:', error);
-          alert('Error al crear la orden de PayPal.');
+          console.error('Error creando la orden:', error);
+          alert('Error creando la orden de PayPal.');
           throw error;
         }
       },
 
       onApprove: async (data: any) => {
         try {
+          const usuario = this.authService.getUsuario();
           const payload = {
             orderID: data.orderID,
+            usuarioId: usuario?.id ?? null,
             carrito: this.carrito().map((p) => ({
               id: p.id,
               nombre: p.nombre,
-              precio:
-                typeof p.precio === 'string'
-                  ? Number(p.precio.replace(/[^0-9.-]+/g, ''))
-                  : p.precio,
-              cantidad: (p as any).cantidad ?? 1,
+              precio: Number(p.precio),
+              cantidad: p.cantidad ?? 1,
             })),
           };
 
           const res = await firstValueFrom(
             this.http.post<any>(
               'http://localhost:3000/api/paypal/capture-order',
-              payload
+              payload,
+              { withCredentials: true }
             )
           );
 
-          console.log('Pago capturado y stock actualizado:', res);
-          alert('Pago completado con éxito.');
-          this.carritoService.confirmarCompra(); 
-          window.location.reload();
+          if (res?.ok) {
+            alert('Pago completado con éxito. Se genera recibo...');
+            this.carritoService.exportarXML();
+            this.carritoService.vaciar();
+          } else {
+            console.warn('Respuesta inesperada:', res);
+            alert('La orden fue procesada pero hubo un problema con el servidor.');
+          }
         } catch (error) {
-          console.error('⚠️ Error al capturar pago:', error);
-          alert('Error al finalizar el pago.');
+          console.error('Error capturando pago:', error);
+          alert('Error al finalizar el pago. Revisa la consola.');
         }
       },
 
       onCancel: () => alert('Pago cancelado por el usuario.'),
       onError: (err: any) => {
-        console.error('Error en PayPal:', err);
-        alert('Ocurrió un error en el proceso de pago.');
+        console.error('Error PayPal:', err);
+        alert('Ocurrió un error con PayPal.');
       },
     }).render('#paypal-button-container');
   }

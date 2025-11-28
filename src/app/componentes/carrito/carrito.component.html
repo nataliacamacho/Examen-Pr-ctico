@@ -1,38 +1,88 @@
-<div class="carrito-container">
-  <h2>Carrito de compras</h2>
+<div class="carrito retail-layout">
 
-  <div *ngIf="carrito().length > 0; else vacio" class="carrito-items">
-    <ul>
-      <li
+  <h2 class="cart-title">
+    Carrito de compras
+  </h2>
+
+  <div class="cart-grid">
+
+    <div class="cart-products">
+
+      <div *ngIf="carrito().length === 0" class="empty-cart">
+        <p>El carrito está vacío.</p>
+      </div>
+
+      <div 
+        class="retail-item" 
         *ngFor="let producto of carrito(); trackBy: trackByProductoId"
-        class="item"
       >
-        <div class="item-left">
-          <strong>{{ producto.nombre }}</strong>
+        <img 
+          [src]="producto.imagen || 'https://via.placeholder.com/120'" 
+          class="item-img" 
+        />
+
+        <div class="item-details">
+          <h3 class="item-name">{{ producto.nombre }}</h3>
+
+          <p class="item-desc">
+            {{ producto.descripcion || 'Sin descripción disponible' }}
+          </p>
+
+          <div class="qty-row">
+            <label>Cantidad:</label>
+
+            <select 
+              class="qty-select"
+              [ngModel]="getCantidad(producto)"
+              (ngModelChange)="actualizarCantidad(producto.id, $event)"
+            >
+              <option *ngFor="let n of getStockOptions(producto)" [value]="n">
+                {{ n }}
+              </option>
+            </select>
+          </div>
+
+          <div class="item-actions">
+            <button class="link-btn" (click)="quitar(producto.id)">Quitar</button>
+            <button class="link-btn" (click)="quitarTodo(producto.id)">Quitar todos</button>
+          </div>
         </div>
 
-        <div class="item-right">
-          <span>${{ producto.precio | number: '1.2-2' }}</span>
-          <button (click)="quitar(producto.id)" class="btn-quitar">
-            Quitar
-          </button>
+        <div class="item-price">
+          ${{ producto.precio | number:'1.2-2' }}
         </div>
-      </li>
-    </ul>
+      </div>
 
-    <div class="resumen">
-      <p><strong>Subtotal:</strong> ${{ subtotal() | number: '1.2-2' }}</p>
-      <p><strong>IVA (16%):</strong> ${{ iva() | number: '1.2-2' }}</p>
-      <p class="total">
-        <strong>Total a pagar:</strong>
-        ${{ totalConIva() | number: '1.2-2' }}
-      </p>
     </div>
 
-    <div id="paypal-button-container" class="paypal-btn"></div>
+    <div class="cart-sidebar">
+
+      <div class="summary-box">
+        <h3>Resumen del pedido</h3>
+
+        <div class="sum-line">
+          <span>Subtotal</span>
+          <strong>${{ subtotal() | number:'1.2-2' }}</strong>
+        </div>
+
+
+        <div class="sum-line">
+          <span>IVA (16%)</span>
+          <strong>${{ iva() | number:'1.2-2' }}</strong>
+        </div>
+
+        <div class="sum-total">
+          <span>Total</span>
+          <strong>${{ totalConIva() | number:'1.2-2' }}</strong>
+        </div>
+
+    
+
+        <div id="paypal-button-container"></div>
+      </div>
+
+    </div>
+
   </div>
 
-  <ng-template #vacio>
-    <p>El carrito está vacío</p>
-  </ng-template>
 </div>

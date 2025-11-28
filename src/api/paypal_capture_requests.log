@@ -1,0 +1,10 @@
+{"time":"2025-11-27T14:14:15.937Z","body":{"orderID":"0FA40929LS276093K","usuarioId":4,"carrito":[{"id":3,"nombre":"Paleta","precio":35,"cantidad":1},{"id":4,"nombre":"Acrilicos","precio":280,"cantidad":1}]}}
+{"time":"2025-11-27T14:19:16.922Z","body":{"orderID":"4NU59480WT806690Y","usuarioId":6,"carrito":[{"id":3,"nombre":"Paleta","precio":35,"cantidad":1},{"id":4,"nombre":"Acrilicos","precio":280,"cantidad":1}]}}
+{"time":"2025-11-27T14:53:30.961Z","body":{"orderID":"09429320WH5665050","usuarioId":3,"carrito":[{"id":3,"nombre":"Paleta","precio":35,"cantidad":1},{"id":4,"nombre":"Acrilicos","precio":280,"cantidad":1}]}}
+{"time":"2025-11-27T16:11:22.479Z","body":{"orderID":"0BA52318MT339815R","usuarioId":10,"carrito":[{"id":3,"nombre":"Paleta","precio":35,"cantidad":1},{"id":4,"nombre":"Acrilicos","precio":280,"cantidad":1}]}}
+{"time":"2025-11-27T16:21:01.277Z","body":{"orderID":"3UN704000D407560G","usuarioId":10,"carrito":[{"id":3,"nombre":"Paleta","precio":35,"cantidad":1},{"id":4,"nombre":"Acrilicos","precio":280,"cantidad":1}]}}
+{"time":"2025-11-27T16:23:00.532Z","body":{"orderID":"9LP54099UY181530S","usuarioId":10,"carrito":[{"id":4,"nombre":"Acrilicos","precio":280,"cantidad":1},{"id":3,"nombre":"Paleta","precio":35,"cantidad":1}]}}
+{"time":"2025-11-27T16:26:51.811Z","body":{"orderID":"5YY55290W6320635P","usuarioId":10,"carrito":[{"id":3,"nombre":"Paleta","precio":35,"cantidad":1},{"id":4,"nombre":"Acrilicos","precio":280,"cantidad":1}]}}
+{"time":"2025-11-27T16:31:37.410Z","body":{"orderID":"3DB63318K4110411J","usuarioId":10,"carrito":[{"id":3,"nombre":"Paleta","precio":35,"cantidad":1},{"id":4,"nombre":"Acrilicos","precio":280,"cantidad":1}]}}
+{"time":"2025-11-27T16:48:11.376Z","body":{"orderID":"77F3064965066974X","usuarioId":10,"carrito":[{"id":3,"nombre":"Paleta","precio":35,"cantidad":1}]}}
+{"time":"2025-11-27T16:48:51.276Z","body":{"orderID":"6P409077JA9233508","usuarioId":10,"carrito":[{"id":3,"nombre":"Paleta","precio":35,"cantidad":1}]}}

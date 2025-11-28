@@ -1,0 +1,246 @@
+.perfil-container {
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 20px;
+  width: 100%;
+}
+
+.perfil-card {
+  background: transparent;
+  border: 1px solid #f8c3d1;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f8c3d1;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #c2185b;
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  margin: 0;
+  color: #666;
+  font-weight: 400;
+}
+
+.perfil-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section {
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #f2b9ca;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #c2185b;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-hint {
+  font-size: 12px;
+  color: #888;
+  margin: -12px 0 16px;
+  font-style: italic;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #f2b9ca;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #ff82a9;
+  box-shadow: 0 0 0 3px rgba(255, 130, 169, 0.15);
+  background-color: #fff;
+}
+
+.form-input::placeholder {
+  color: #bbb;
+}
+
+.error-text {
+  color: #d32f2f;
+  font-size: 12px;
+  margin: 6px 0 0;
+  font-weight: 500;
+}
+
+.messages {
+  margin: 20px 0;
+  min-height: auto;
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  color: #2e7d32;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+  animation: slideInDown 0.3s ease;
+}
+
+.error-message {
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #c62828;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+  animation: slideInDown 0.3s ease;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  width: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff82a9, #ff4f8b);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff4f8b, #ff2670);
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(255, 79, 139, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #f8bfd3;
+  color: #333;
+  box-shadow: none;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #f38daf;
+  transform: scale(1.05);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .perfil-container {
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  .perfil-card {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
