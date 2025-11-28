@@ -116,7 +116,6 @@ export class EditarProductoComponent implements OnInit {
         this.cargando = false;
         this.mensaje = 'Producto guardado correctamente ✓';
         this.cdr.markForCheck();
-        // Volver después de 800ms (el tiempo que tarda la animación)
         setTimeout(() => this.volver(), 800);
       },
       error: (err: any) => {

@@ -4,7 +4,6 @@ export function simpleRateLimit(key, limit = 3, windowMs = 10 * 60 * 1000) {
   const now = Date.now();
   const entry = attempts.get(key) || { count: 0, first: now };
   if (now - entry.first > windowMs) {
-    // reiniciar ventana
     attempts.set(key, { count: 1, first: now });
     return { allowed: true, remaining: limit - 1 };
   }

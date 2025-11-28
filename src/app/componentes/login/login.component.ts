@@ -29,7 +29,7 @@ export class LoginComponent {
   this.auth.login({ correo: this.correo, password: this.password }).subscribe({
   next: (res: any) => {
     if (res.usuario) {
-      console.log('✅ Login exitoso:', res.usuario);
+      console.log('Login exitoso:', res.usuario);
       if (res.usuario.rol === 'admin' || res.usuario.rol === 'administrador') {
         this.router.navigate(['/admin/productos']); 
       } else {

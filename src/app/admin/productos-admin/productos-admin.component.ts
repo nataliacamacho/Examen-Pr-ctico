@@ -51,7 +51,6 @@ export class ProductosAdminComponent implements OnInit {
   async cargarProductos() {
     try {
       this.loading = true;
-      // Esto dispara el tap() en el servicio que actualiza el signal
       const result = await firstValueFrom(
         this.adminService.getProductos()
       );
@@ -104,7 +103,6 @@ export class ProductosAdminComponent implements OnInit {
       this.loading = true;
       try {
         if (this.productoEditando) {
-          // Actualizar con timeout
           await firstValueFrom(
             this.http.put<any>(
               `http://localhost:3000/api/admin/productos/${this.productoEditando.id}`,
@@ -114,7 +112,6 @@ export class ProductosAdminComponent implements OnInit {
           );
           this.mensaje = 'Producto actualizado exitosamente';
         } else {
-          // Crear con timeout
           await firstValueFrom(
             this.http.post<any>(
               'http://localhost:3000/api/admin/productos',
@@ -125,7 +122,6 @@ export class ProductosAdminComponent implements OnInit {
           this.mensaje = 'Producto creado exitosamente';
         }
       } catch (err: any) {
-        // Mostrar mensaje devuelto por el servidor si está disponible
         const serverMsg = err?.error?.message || err?.error?.error || err?.message;
         if (err && err.name === 'TimeoutError') {
           this.mensaje = 'La operación tardó demasiado. Intenta de nuevo.';
@@ -139,7 +135,6 @@ export class ProductosAdminComponent implements OnInit {
       }
       await this.cargarProductos();
       this.cerrarFormulario();
-      // Limpiar mensaje después de 3 segundos
       setTimeout(() => {
         this.mensaje = '';
       }, 3000);
@@ -161,19 +156,15 @@ export class ProductosAdminComponent implements OnInit {
           ).pipe(timeout(10000))
         );
         this.mensaje = 'Producto eliminado exitosamente';
-        // Optimistic UI update: marcar localmente como inactivo para mostrar cambio inmediato
         const productosActuales = this.productos();
         const idx = productosActuales.findIndex((p: any) => p.id === id);
         if (idx !== -1) {
           const productosActualizados = [...productosActuales];
-          // mark as inactive locally (support both possible field names)
           productosActualizados[idx].estado = 'inactivo';
           productosActualizados[idx].vigencia = 'inactivo';
           this.productos.set(productosActualizados);
         }
-        // Luego sincronizamos con el servidor
         await this.cargarProductos();
-        // Limpiar mensaje después de 3 segundos
         setTimeout(() => {
           this.mensaje = '';
         }, 3000);
@@ -197,7 +188,6 @@ export class ProductosAdminComponent implements OnInit {
   }
 
   estaInactivo(producto: Producto): boolean {
-    // accept either 'estado' or legacy 'vigencia'
     const estado = (producto as any).estado || (producto as any).vigencia || '';
     return estado === 'inactivo' || estado === 'no activo';
   }
