@@ -41,6 +41,7 @@ export class ProductosAdminComponent implements OnInit {
     precio: 0,
     stock: 0,
     imagen: '',
+    vigencia: 'activo',
   };
 
   async ngOnInit() {
@@ -72,6 +73,7 @@ export class ProductosAdminComponent implements OnInit {
         precio: producto.precio,
         stock: producto.stock,
         imagen: producto.imagen || '',
+        vigencia: (producto as any).estado || producto.vigencia || 'activo',
       };
     } else {
       this.productoEditando = null;
@@ -81,6 +83,7 @@ export class ProductosAdminComponent implements OnInit {
         precio: 0,
         stock: 0,
         imagen: '',
+        vigencia: 'activo',
       };
     }
     this.formVisible = true;
@@ -163,7 +166,9 @@ export class ProductosAdminComponent implements OnInit {
         const idx = productosActuales.findIndex((p: any) => p.id === id);
         if (idx !== -1) {
           const productosActualizados = [...productosActuales];
-          productosActualizados[idx].vigencia = 'no activo';
+          // mark as inactive locally (support both possible field names)
+          productosActualizados[idx].estado = 'inactivo';
+          productosActualizados[idx].vigencia = 'inactivo';
           this.productos.set(productosActualizados);
         }
         // Luego sincronizamos con el servidor
@@ -192,7 +197,9 @@ export class ProductosAdminComponent implements OnInit {
   }
 
   estaInactivo(producto: Producto): boolean {
-    return producto.vigencia === 'no activo';
+    // accept either 'estado' or legacy 'vigencia'
+    const estado = (producto as any).estado || (producto as any).vigencia || '';
+    return estado === 'inactivo' || estado === 'no activo';
   }
 
   editarProducto(id: number): void {

@@ -13,7 +13,6 @@ import { AuthService } from '../../servicios/auth.service';
 import { Producto } from '../../models/producto';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import cors from 'cors';
 
 
 

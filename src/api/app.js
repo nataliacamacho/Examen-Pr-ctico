@@ -22,14 +22,15 @@ app.use(
     origin: [
       "http://localhost:4200",
       "https://www.sandbox.paypal.com",
-      "https://www.paypal.com",
-      "https://extensions-stores-admin.onrender.com"              
+      "https://www.paypal.com"
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
+    credentials: true 
   })
 );
+
+
 
 app.use(express.json());
 

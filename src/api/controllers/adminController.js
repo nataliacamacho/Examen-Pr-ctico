@@ -3,7 +3,7 @@ import db from '../config/db.js';
 export const getProductosAdmin = async (req, res) => {
   try {
     const [rows] = await db.query(
-      `SELECT p.*, v.estado AS vigencia FROM productos p
+      `SELECT p.*, v.estado AS estado FROM productos p
        LEFT JOIN vigencia v ON p.vigencia_id = v.id
        ORDER BY p.id DESC`
     );
@@ -18,7 +18,7 @@ export const getProductoById = async (req, res) => {
   const { id } = req.params;
   try {
     const [rows] = await db.query(
-      `SELECT p.*, v.estado AS vigencia FROM productos p
+      `SELECT p.*, v.estado AS estado FROM productos p
        LEFT JOIN vigencia v ON p.vigencia_id = v.id
        WHERE p.id = ?`,
       [id]
@@ -55,7 +55,9 @@ export const agregarProducto = async (req, res) => {
 
 export const modificarProducto = async (req, res) => {
   const { id } = req.params;
-  const { nombre, descripcion, precio, imagen, stock, estado } = req.body;
+  // accept either 'estado' or 'vigencia' from client (some frontends used 'vigencia')
+  const { nombre, descripcion, precio, imagen, stock, estado, vigencia } = req.body;
+  const estadoValor = estado || vigencia || null;
   
   try {
     if (!nombre || precio <= 0) {
@@ -63,11 +65,11 @@ export const modificarProducto = async (req, res) => {
     }
 
     let vigencia_id = null;
-    if (estado) {
+    if (estadoValor) {
       try {
         const [rows] = await db.query(
           `SELECT id FROM vigencia WHERE estado = ? LIMIT 1`,
-          [estado]
+          [estadoValor]
         );
         if (rows.length > 0) {
           vigencia_id = rows[0].id;
@@ -110,7 +112,7 @@ export const modificarProducto = async (req, res) => {
     }
 
     const [updated] = await db.query(
-      `SELECT p.*, v.estado AS vigencia FROM productos p
+      `SELECT p.*, v.estado AS estado FROM productos p
        LEFT JOIN vigencia v ON p.vigencia_id = v.id
        WHERE p.id = ?`,
       [id]

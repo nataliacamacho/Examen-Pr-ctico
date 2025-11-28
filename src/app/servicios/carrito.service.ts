@@ -10,7 +10,6 @@ export class CarritoService {
   private parsePrice(value: any): number {
     if (value == null) return 0;
     if (typeof value === 'number') return isFinite(value) ? value : 0;
-
     if (typeof value !== 'string') {
       const n = Number(value);
       return isFinite(n) ? n : 0;
@@ -40,12 +39,10 @@ export class CarritoService {
         const copia = [...lista];
         const existente = { ...copia[index] } as any;
         const currentQty = Number(existente.cantidad ?? 1);
-        const nuevaQty = currentQty + 1;
-        existente.cantidad = nuevaQty;
+        existente.cantidad = currentQty + 1;
         copia[index] = existente;
         return copia;
       }
-
       return [...lista, { ...limpio, cantidad: 1 }];
     });
   }
@@ -109,36 +106,45 @@ export class CarritoService {
     return this.subtotal() + this.iva();
   }
 
-  exportarXML() {
-    const productos = this.productos();
-    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<recibo>\n`;
+  exportarXML(data?: {
+  carrito: any[],
+  subtotal: number,
+  iva: number,
+  total: number
+}) {
+  const carrito = data?.carrito ?? this.productos();
+  const subtotal = data?.subtotal ?? this.subtotal();
+  const iva = data?.iva ?? this.iva();
+  const total = data?.total ?? this.totalConIva();
 
-    for (const p of productos) {
-      const precioNum = this.parsePrice((p as any).precio);
-      const cantidad = Number((p as any).cantidad ?? 1);
-      xml += `  <producto>\n`;
-      xml += `    <id>${p.id}</id>\n`;
-      xml += `    <nombre>${p.nombre}</nombre>\n`;
-      xml += `    <precio>${precioNum.toFixed(2)}</precio>\n`;
-      if (p.descripcion)
-        xml += `    <descripcion>${p.descripcion}</descripcion>\n`;
-      xml += `    <cantidad>${cantidad}</cantidad>\n`;
-      xml += `  </producto>\n`;
-    }
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<recibo>\n`;
 
-    xml += `  <subtotal>${this.subtotal().toFixed(2)}</subtotal>\n`;
-    xml += `  <iva>${this.iva().toFixed(2)}</iva>\n`;
-    xml += `  <total>${this.totalConIva().toFixed(2)}</total>\n`;
-    xml += `</recibo>`;
-
-    const blob = new Blob([xml], { type: 'application/xml' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'recibo.xml';
-    a.click();
-    URL.revokeObjectURL(url);
+  for (const p of carrito) {
+    xml += `  <producto>\n`;
+    xml += `    <id>${p.id}</id>\n`;
+    xml += `    <nombre>${p.nombre}</nombre>\n`;
+    xml += `    <precio>${Number(p.precio).toFixed(2)}</precio>\n`;
+    if (p.descripcion)
+      xml += `    <descripcion>${p.descripcion}</descripcion>\n`;
+    xml += `    <cantidad>${Number(p.cantidad)}</cantidad>\n`;
+    xml += `  </producto>\n`;
   }
+
+  xml += `  <subtotal>${subtotal.toFixed(2)}</subtotal>\n`;
+  xml += `  <iva>${iva.toFixed(2)}</iva>\n`;
+  xml += `  <total>${total.toFixed(2)}</total>\n`;
+  xml += `</recibo>`;
+
+  const blob = new Blob([xml], { type: 'application/xml' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'recibo.xml';
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
 
   confirmarCompra() {
     this.exportarXML();

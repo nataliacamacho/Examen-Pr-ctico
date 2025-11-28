@@ -39,6 +39,7 @@
                         <td>{{ producto.estado }}</td>
                         <td>
                             <button (click)="editarProducto(producto)">Editar</button>
+                            
                             <button (click)="toggleVigencia(producto)">
                                 {{ producto.estado === 'activo' ? 'Desactivar' : 'Activar' }}
                             </button>
